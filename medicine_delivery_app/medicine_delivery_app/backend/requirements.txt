@@ -1,0 +1,4 @@
+# Server
+flask
+gunicorn
+requests

@@ -1,0 +1,3 @@
+# Phone/desktop app (client)
+flet
+requests
