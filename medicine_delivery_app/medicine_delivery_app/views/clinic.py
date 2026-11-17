@@ -37,7 +37,12 @@ def clinic_view(ctx):
         ctx.page.show_dialog(ft.AlertDialog(
             modal=True,
             title=ft.Text("Prepare a delivery"),
-            content=ft.Column([patient, note, error], tight=True, width=320),
+            content=ft.Column([
+                body("Choose a patient and add a parcel label. Preparing the delivery creates a "
+                     "one-time 4-digit handover PIN. Share it only with the patient or caregiver; "
+                     "the messenger will need it to confirm the handover."),
+                patient, note, error
+            ], tight=True, width=320),
             actions=[ft.TextButton("Cancel", on_click=ctx.close_dialog),
                      ft.Button("Create", on_click=create)],
         ))
@@ -147,6 +152,12 @@ def clinic_view(ctx):
                             weight=ft.FontWeight.BOLD, expand=True),
                     status_badge(d.status)]),
             body(f"{d.delivery_id} \u00b7 {patient.village if patient else ''} \u00b7 {d.parcel_note}"),
+            body({
+                "Ready": "Next action: wait for the messenger to collect the parcel.",
+                "Collected": "Next action: wait for the patient or caregiver to confirm the handover with their PIN.",
+                "Delivered": "Complete: the handover has been confirmed.",
+                "Returned": "Needs attention: review the returned parcel and queue it again if appropriate.",
+            }.get(d.status, "")),
             ft.Text(f"Last update: {last.get('time', '')} by {last.get('by', '')}", size=14),
         ]
         if d.locked:
