@@ -3,7 +3,7 @@ import flet as ft
 from models import ALL_STATUSES, RETURNED
 from theme import STATUS_COLORS
 from views.common import (DropdownOption, app_bar, body, heading, nav_row, padded,
-                          page_body, status_badge)
+                          page_body, status_badge, status_guide)
 
 
 def clinic_view(ctx):
@@ -36,7 +36,7 @@ def clinic_view(ctx):
 
         ctx.page.show_dialog(ft.AlertDialog(
             modal=True,
-            title=ft.Text("Mark parcel ready"),
+            title=ft.Text("Prepare a delivery"),
             content=ft.Column([patient, note, error], tight=True, width=320),
             actions=[ft.TextButton("Cancel", on_click=ctx.close_dialog),
                      ft.Button("Create", on_click=create)],
@@ -199,13 +199,25 @@ def clinic_view(ctx):
             heading(f"Hello, {user.full_name}"),
             nav_row(ctx),
             *pending_section,
+            ft.Container(
+                content=ft.Column([
+                    heading("Getting started"),
+                    body("1. Add a patient and a messenger for the patient's village. "
+                         "2. Choose 'Prepare delivery' when the parcel is ready. "
+                         "3. Give the one-time patient PIN to the patient or caregiver. "
+                         "4. Follow the status below until the handover is confirmed."),
+                ], spacing=6),
+                padding=12, border_radius=10,
+                bgcolor=ft.Colors.with_opacity(0.06, ft.Colors.BLUE_GREY),
+            ),
             ft.Row([
-                ft.Button("New delivery", icon=ft.Icons.LOCAL_SHIPPING, on_click=open_new_delivery),
+                ft.Button("Prepare delivery", icon=ft.Icons.LOCAL_SHIPPING, on_click=open_new_delivery),
                 ft.OutlinedButton("Add patient", icon=ft.Icons.PERSON_ADD, on_click=to_add_patient),
                 ft.OutlinedButton("Add messenger", icon=ft.Icons.DIRECTIONS_WALK, on_click=to_add_messenger),
                 ft.OutlinedButton("Invite staff", icon=ft.Icons.GROUP_ADD, on_click=make_invite),
             ], wrap=True),
             summary,
+            status_guide(),
             ft.Divider(),
             heading("Deliveries"),
             *cards,
