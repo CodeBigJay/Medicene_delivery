@@ -94,6 +94,28 @@ def body(text, **kw):
     return ft.Text(text, size=BODY_SIZE, **kw)
 
 
+def status_guide():
+    """Plain-language explanation of each delivery status."""
+    explanations = [
+        ("Ready", "The clinic has prepared the parcel. A messenger can collect it."),
+        ("Collected", "The messenger has collected the parcel and must complete the handover."),
+        ("Delivered", "The patient or caregiver's PIN confirmed the handover."),
+        ("Returned", "The parcel was brought back to the clinic. Staff can queue it again."),
+    ]
+    items = []
+    for label, explanation in explanations:
+        items.append(ft.Row([
+            status_badge(label),
+            ft.Container(content=body(explanation), expand=True),
+        ], vertical_alignment=ft.CrossAxisAlignment.CENTER))
+    return ft.Container(
+        content=ft.Column([heading("Delivery status guide"), *items], spacing=8),
+        padding=12,
+        border_radius=10,
+        bgcolor=ft.Colors.with_opacity(0.06, ft.Colors.BLUE_GREY),
+    )
+
+
 def status_badge(status):
     return ft.Container(
         content=ft.Text(status, color=ft.Colors.WHITE, size=14, weight=ft.FontWeight.BOLD),
