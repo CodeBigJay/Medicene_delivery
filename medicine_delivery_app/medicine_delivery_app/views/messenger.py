@@ -1,7 +1,7 @@
 import flet as ft
 
 from models import COLLECTED, READY
-from views.common import app_bar, body, heading, nav_row, padded, page_body, status_badge
+from views.common import app_bar, body, heading, nav_row, padded, page_body, status_badge, status_guide
 
 
 def messenger_view(ctx):
@@ -19,12 +19,30 @@ def messenger_view(ctx):
 
     def returned(delivery_id):
         def handler(e):
-            try:
-                manager.mark_returned(delivery_id)
-                ctx.toast("Marked as returned to the clinic.")
-            except ValueError as err:
-                ctx.toast(str(err))
-            ctx.refresh()
+            def confirm_return(event):
+                try:
+                    manager.mark_returned(delivery_id)
+                    ctx.close_dialog()
+                    ctx.toast("Marked as returned to the clinic. Clinic staff can queue it again.")
+                    ctx.refresh()
+                except ValueError as err:
+                    ctx.toast(str(err))
+                    ctx.close_dialog()
+                    ctx.refresh()
+
+            ctx.page.show_dialog(ft.AlertDialog(
+                modal=True,
+                title=ft.Text("Return parcel to clinic?"),
+                content=body(
+                    "Use this when the patient or caregiver is unavailable or the handover "
+                    "cannot be completed. The parcel will be marked as returned, and clinic "
+                    "staff can review it and queue it again."
+                ),
+                actions=[
+                    ft.TextButton("Cancel", on_click=ctx.close_dialog),
+                    ft.Button("Confirm return", on_click=confirm_return),
+                ],
+            ))
         return handler
 
     def open_confirm(delivery_id):
@@ -68,6 +86,11 @@ def messenger_view(ctx):
             lines.append(ft.Text("PIN locked. Ask the clinic to send a new PIN.",
                                  color=ft.Colors.RED, size=14))
         if d.status == READY:
+            lines.append(body("Next step: collect this parcel from the clinic, then deliver it to the patient or caregiver."))
+        elif d.status == COLLECTED:
+            lines.append(body("Next step: complete the handover and ask the patient or caregiver for their 4-digit PIN. "
+                              "If the handover cannot be completed, return the parcel to the clinic."))
+        if d.status == READY:
             lines.append(ft.Button("Collect from clinic", icon=ft.Icons.INVENTORY,
                                    on_click=collect(d.delivery_id)))
         elif d.status == COLLECTED:
@@ -90,6 +113,19 @@ def messenger_view(ctx):
             nav_row(ctx),
             body(f"Delivered by you so far: {done}"),
             ft.Divider(),
+            ft.Container(
+                content=ft.Column([
+                    heading("Your delivery steps"),
+                    body("1. Collect a parcel marked Ready. "
+                         "2. Take it to the patient or caregiver. "
+                         "3. Ask them for the 4-digit handover PIN and confirm delivery. "
+                         "If the handover cannot be completed, choose 'Return to clinic' "
+                         "and explain the situation to clinic staff."),
+                ], spacing=6),
+                padding=12, border_radius=10,
+                bgcolor=ft.Colors.with_opacity(0.06, ft.Colors.BLUE_GREY),
+            ),
+            status_guide(),
             heading("Parcels to deliver"),
             *cards,
         ))],
