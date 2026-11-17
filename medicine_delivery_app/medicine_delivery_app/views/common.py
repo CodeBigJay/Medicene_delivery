@@ -112,7 +112,7 @@ def status_guide():
         content=ft.Column([heading("Delivery status guide"), *items], spacing=8),
         padding=12,
         border_radius=10,
-        bgcolor=ft.Colors.with_opacity(0.06, ft.Colors.BLUE_GREY),
+        bgcolor=ft.Colors.BLUE_GREY_50,
     )
 
 
