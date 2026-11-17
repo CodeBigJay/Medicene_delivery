@@ -123,7 +123,7 @@ def messenger_view(ctx):
                          "and explain the situation to clinic staff."),
                 ], spacing=6),
                 padding=12, border_radius=10,
-                bgcolor=ft.Colors.with_opacity(0.06, ft.Colors.BLUE_GREY),
+                bgcolor=ft.Colors.BLUE_GREY_50,
             ),
             status_guide(),
             heading("Parcels to deliver"),
