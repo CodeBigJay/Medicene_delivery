@@ -208,7 +208,7 @@ def clinic_view(ctx):
                          "4. Follow the status below until the handover is confirmed."),
                 ], spacing=6),
                 padding=12, border_radius=10,
-                bgcolor=ft.Colors.with_opacity(0.06, ft.Colors.BLUE_GREY),
+                bgcolor=ft.Colors.BLUE_GREY_50,
             ),
             ft.Row([
                 ft.Button("Prepare delivery", icon=ft.Icons.LOCAL_SHIPPING, on_click=open_new_delivery),
