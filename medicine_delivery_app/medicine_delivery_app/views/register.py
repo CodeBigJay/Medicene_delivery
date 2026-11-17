@@ -46,7 +46,10 @@ def register_view(ctx):
         appbar=app_bar(ctx, "Create account", show_logout=False),
         controls=[padded(page_body(
             heading("Join Doorstep Meds"),
-            body("Messengers are approved by the clinic. Clinic staff need an invite code from a colleague."),
+            body("Messengers are approved by the clinic and can sign in after approval. "
+                 "Clinic staff can register with a one-use invite code from a colleague."),
+            body("Complete the village field only for messenger registration. "
+                 "Complete the invite code field only for clinic staff registration."),
             full_name, username, pin, pin2, email, phone, village, invite, error,
             ft.Button("Register as messenger", icon=ft.Icons.DIRECTIONS_WALK, on_click=as_messenger),
             ft.OutlinedButton("Register as clinic staff", icon=ft.Icons.LOCAL_HOSPITAL, on_click=as_staff),
