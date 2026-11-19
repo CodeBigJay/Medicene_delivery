@@ -1,10 +1,8 @@
 """Data models and business rules for Doorstep Meds (no UI code here).
 
-OOP ideas used (Unit 2):
-  * Inheritance:   ClinicStaff and Messenger inherit from User.
-  * Polymorphism:  each role overrides home_route() and to_public()/to_dict().
-  * Composition:   DeliveryManager holds lists of User, Patient, Delivery, Message and Invite objects.
-  * super():       Messenger.__init__ calls User.__init__.
+The user classes share common account fields and behaviour. ClinicStaff and
+Messenger specialise the User class, while DeliveryManager coordinates the
+application records and business rules.
 """
 import hashlib
 import hmac
@@ -360,7 +358,7 @@ class DeliveryManager:
             ClinicStaff("clinic1", "Nurse Naledi", hash_pin("clinic1", "1234")),
             Messenger("thabo", "Thabo", hash_pin("thabo", "1111"), "Lekubu"),
             Messenger("lerato", "Lerato", hash_pin("lerato", "2222"), "Dinokana"),
-            # A waiting registration, so the approval screen has something to show.
+            # Add a pending messenger for the approval workflow demonstration.
             Messenger("nomsa", "Nomsa Dlamini", hash_pin("nomsa", "3333"), "Lekubu",
                       status=PENDING),
         ]
