@@ -45,12 +45,11 @@ assert route(p) == "/login"
 p.route = "/clinic"; p.on_route_change(); assert route(p) == "/login"      # guard: not signed in
 mgr = None
 def sign_in(user, pin):
-    # use the real login view's own click handler path
-    from api_client import RemoteManager
-    m = p_mgr(); m.login(user, pin)
+    # Sign in through the manager used by the application.
+    p_mgr().login(user, pin)
 def p_mgr():
     return app_ctx.manager
-# grab the context the app created
+# Get the application context created during startup.
 import gc
 app_ctx = next(o for o in gc.get_objects() if type(o).__name__ == "AppContext")
 for user, pin, home in [("clinic1", "1234", "/clinic"), ("thabo", "1111", "/messenger")]:
@@ -60,7 +59,7 @@ p.route = "/clinic"; p.on_route_change(); assert route(p) == "/messenger"    # g
 app_ctx.manager.logout(); sign_in("clinic1", "1234")
 for r in ("/add-patient", "/add-messenger"):
     p.route = r; p.on_route_change(); assert route(p) == r, r
-# new screens
+# Check the registration and messaging screens.
 app_ctx.manager.logout()
 p.route = "/register"; p.on_route_change(); assert route(p) == "/register"
 p.route = "/messages"; p.on_route_change(); assert route(p) == "/login"       # guard: not signed in
