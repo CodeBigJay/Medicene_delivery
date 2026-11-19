@@ -1,50 +1,54 @@
-# Deploying Doorstep Meds
+# Deployment notes
 
-## 1. The server
+This document describes possible ways to run the Doorstep Meds backend outside a local development environment. These deployment steps are guidance only; the project has not been confirmed as running on a live hosting service.
 
-**Option A: Render (easiest).** Push this folder to GitHub, create a Render "Blueprint" from `render.yaml`,
-and fill in the secret values it asks for. The persistent disk keeps your database (disks need a paid plan).
+## 1. Run the backend
 
-**Option B: Docker anywhere.**
-```
+### Render
+
+The repository includes a `render.yaml` Blueprint configuration. A persistent disk is required if the SQLite database must retain its data between restarts. Check the current Render plan and pricing before choosing this option; persistent disks may require a paid plan.
+
+### Docker
+
+Build and run the backend from this directory:
+
+```bash
 docker build -t doorstep-api .
 docker run -d -p 8000:8000 -v doorstep-data:/data \
   -e DOORSTEP_ADMIN_PIN=choose-a-long-pin \
-  -e SMS_PROVIDER=twilio -e TWILIO_ACCOUNT_SID=... -e TWILIO_AUTH_TOKEN=... -e TWILIO_FROM=+1... \
   doorstep-api
 ```
 
-On first start in production the only account is **admin** with `DOORSTEP_ADMIN_PIN`. There is no demo data.
-Sign in as admin, add your patients inside the app, create invite codes for colleagues, and approve messengers as they register.
+For a production profile, configure the required environment variables before starting the container. The first production setup creates an admin account; it does not load the demo accounts. Sign in as the admin, add the required records and approve messenger registrations.
 
-Always put the server behind HTTPS (Render does this for you; otherwise use a reverse proxy such as Caddy).
+Use HTTPS when making the API available outside a local development machine.
 
-## 2. Real SMS
+## 2. SMS notifications
 
-Set `SMS_PROVIDER=twilio` and the three `TWILIO_*` variables. Numbers written 0821234567 are sent as +27821234567.
-Without them the PIN is only printed in the server log and shown once on the clinic screen.
-(To use a South African SMS gateway instead, add a small class with a `send(phone, text)` method in `notifier.py`.)
-This was not tested against a live SMS account: send yourself a test parcel first.
+The notifier supports a Twilio configuration through the `SMS_PROVIDER` and `TWILIO_*` environment variables. Without a live SMS provider, the PIN is written to the server log and shown on the clinic screen.
 
-## 3. Real email
+The live SMS integration has not been tested with a provider account.
 
-Set `EMAIL_PROVIDER=smtp` and `SMTP_HOST`, `SMTP_PORT` (587), `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM`.
-Any SMTP service works (Gmail with an app password, Brevo, Mailgun, your clinic's mail server).
-Without these, emails are only printed in the server log. Also not tested against a live mail account: send yourself a test first.
+## 3. Email notifications
 
-## 4. The app
+Email can be configured through SMTP using `EMAIL_PROVIDER=smtp` and the `SMTP_*` environment variables. Without SMTP settings, email output is written to the server log.
 
-Point the app at your server: `DOORSTEP_API_URL=https://your-server python main.py`.
-To give people the app, build it with Flet: see https://docs.flet.dev/publish/ for Android (APK) and web publishing.
-For packaged builds, set the server address in `API_URL` at the top of `main.py`.
+The live email integration has not been tested with a mail account.
 
-## 5. Before real patients use it (POPIA)
+## 4. Configure the client
 
-Patient names, addresses, phone numbers and medicine collection are personal/health information under South Africa's POPIA.
-Before a pilot: get written consent from patients, agree who at the clinic is responsible, set up backups of the
-database file, and have the clinic or a lawyer review your approach. This project is a prototype, not legal advice.
+Set `DOORSTEP_API_URL` to the address of the backend before starting the client. For example:
 
-## 6. Scaling later
+```bash
+DOORSTEP_API_URL=https://your-server.example python main.py
+```
 
-The server runs one process so its rules stay consistent. To serve many clinics, move the data to PostgreSQL
-and make each action a single database transaction.
+For packaged applications, configure the API address in the client settings as described in the source.
+
+## 5. Before any real-world use
+
+This project is a learning prototype and must not be used with real patient information. A real deployment would need an independent security review, appropriate privacy and legal review, access controls, secure backups and tested notification services. South African patient information may be subject to POPIA requirements.
+
+## 6. Scaling
+
+The current backend is designed for a small demonstration and runs as a single process. A larger deployment would need a production database, such as PostgreSQL, and further work on concurrent updates, monitoring and operational security.
