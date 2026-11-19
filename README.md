@@ -1,63 +1,44 @@
 # Doorstep Meds
 
-**A Python application prototype built with Flet, Flask and SQLite.**
+**Python Flet application with a Flask API and SQLite storage.**
 
-Doorstep Meds is a course capstone project created for the FNB App Academy's Introduction to Python programme. It explores how a multi-role client application can communicate with a separate REST API and persist application data.
+Doorstep Meds is my FNB App Academy capstone project. It is a prototype for managing medicine deliveries from a clinic to patients in their villages. Clinic staff prepare deliveries, messengers collect them, and the recipient confirms delivery with a PIN.
 
-> **Project status:** Educational prototype. It is not a production healthcare service and has not been validated for real-world clinical use. Do not use it with real patient information.
+This project was built for learning and demonstration. It is not a production healthcare service. Do not enter real patient or health information.
 
-## Technical overview
+## Technologies
 
-| Area | Technologies |
-|---|---|
-| Client application | Python, Flet |
-| Backend API | Python, Flask |
-| Persistence | SQLite and JSON storage |
-| Client/server communication | REST, HTTP, JSON |
-| Testing | Python `unittest` |
-| Integrations | Notification-provider abstractions |
+- Python and Flet for the application interface
+- Python and Flask for the API
+- SQLite and JSON for data storage
+- Requests for communication between the client and API
+- Python `unittest` for automated tests
 
-## Architecture
+## How the application is organised
 
-The project separates the client interface from the backend:
+The Flet client contains the screens and navigation. It sends requests through `api_client.py` to the Flask API in `backend/app.py`. The models contain the main application rules, while `storage.py` handles data persistence.
 
-- **Flet client** — application entry point, views, shared theme and navigation.
-- **API client** — centralises HTTP requests and session handling.
-- **Flask backend** — exposes the API and applies server-side authentication and role checks.
-- **Models** — represents the application's domain objects and validation.
-- **Storage layer** — provides SQLite and JSON persistence implementations.
-- **Tests** — contains automated tests for core modules and API behaviour.
+## Main features
 
-## Engineering concepts demonstrated
+- Separate clinic and messenger accounts
+- Messenger registration and clinic approval
+- Patient and delivery records
+- PIN confirmation when a delivery is completed
+- Delivery status updates
+- Messages between clinic staff and messengers
 
-- Object-oriented programming, inheritance and composition
-- Separation of concerns between UI, API, domain logic and persistence
-- REST API design and client/server communication
-- Input validation and exception handling
-- Authentication, authorization and session management concepts
-- Automated testing and persistence testing
+## Project files
 
-## Repository layout
-
-The application source is currently nested under:
-
-`medicine_delivery_app/medicine_delivery_app/`
-
-The project README, setup notes, deployment notes and test instructions are located in that directory.
+The application source is in `medicine_delivery_app/medicine_delivery_app/`. The README in that folder contains setup instructions and the demo login details.
 
 [Open the application README](medicine_delivery_app/medicine_delivery_app/README.md)
 
 ## Running tests
 
-From the application directory, consult its README for environment setup and the documented test commands. Tests have not been represented here as a guarantee of production readiness.
+Open the application folder and follow the test instructions in its README. The test suite is useful for checking the current implementation, but passing tests do not make this prototype suitable for real healthcare use.
 
-## Current limitations
+## Limitations
 
-- The project is an educational prototype, not a production-ready healthcare system.
-- The existing design has documented single-process and scalability limitations.
-- Some external notification integrations are documented but have not been verified as live services.
-- The interface and backend require further independent review, testing and security assessment before any real-world use.
+This is a student project. The application has not had an independent security or regulatory assessment. Its current backend also has single-process and scaling limitations. Live SMS and email services have not been verified.
 
-## What this project demonstrates
-
-This repository is included as a portfolio example of a Python full-stack application, with a distinct client, REST backend, persistence layer and automated tests. The emphasis is on the software structure and engineering concepts demonstrated by the code—not on providing a live healthcare service.
+The project demonstrates the Python, API, database and interface work completed for the capstone.
