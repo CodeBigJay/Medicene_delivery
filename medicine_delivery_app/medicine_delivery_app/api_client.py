@@ -1,4 +1,4 @@
-"""Talks to the Doorstep Meds backend over HTTP (Unit 4: requests / REST).
+"""Handles HTTP communication with the Doorstep Meds backend.
 
 RemoteManager offers the same kind of methods the screens used before
 (add_patient, collect, ...), but each one calls the server. Business rules
