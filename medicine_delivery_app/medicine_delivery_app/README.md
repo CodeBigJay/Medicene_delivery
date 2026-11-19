@@ -1,45 +1,35 @@
-# Doorstep Meds — FNB App Academy Capstone
+# Doorstep Meds
 
-![Project logo](assets/logo.svg)
+**A Python Flet application with a Flask API and SQLite storage.**
 
-**A Python application-development capstone demonstrating a multi-screen client, a REST API, persistence and object-oriented design.**
+Doorstep Meds is my FNB App Academy capstone project. It is a prototype for managing medicine deliveries from a clinic to patients in their villages. Clinic staff prepare deliveries, messengers collect them, and the recipient confirms delivery with a PIN.
 
-Doorstep Meds was developed as part of the FNB App Academy's *Introduction to Python: Mobile and Web Application Development* programme. The project gave me an opportunity to bring together concepts from the course in a larger application.
+> **Project status:** This is an educational prototype for demonstration and assessment. It is not a production healthcare service. Do not enter real patient, personal or health information. The application has not had an independent security or regulatory assessment.
 
-> **Project status:** Educational prototype for portfolio demonstration only. It is not a production healthcare service. Do not enter real patient, personal or health information. The code has not undergone an independent security or regulatory assessment.
+## Technologies used
 
-## Technology stack
-
-| Layer | Technology |
+| Part | Technology |
 |---|---|
-| Client UI | Python, Flet |
-| Backend | Python, Flask |
+| Client interface | Python, Flet |
+| Backend API | Python, Flask |
 | API communication | REST, HTTP, JSON, Requests |
-| Persistence | SQLite and JSON |
-| Automated tests | Python `unittest` |
-| External service adapters | Notification-provider abstractions |
+| Data storage | SQLite and JSON |
+| Tests | Python `unittest` |
+| Notifications | SMS and email provider adapters |
 
-## Architecture
+## How the application works
 
-The codebase separates the main technical responsibilities:
-
-- **Client application** — application entry point, screens, shared theme and navigation.
-- **API client** — centralises communication between the client and backend.
-- **Flask API** — provides server endpoints and server-side request checks.
-- **Domain models** — uses classes to represent application data and validation.
-- **Storage layer** — separates persistence from the rest of the application.
-- **Tests** — contains automated tests for models, storage and API/client components.
+The Flet client contains the screens and navigation. It communicates with the Flask API through `api_client.py`. The API uses the models for application rules and `storage.py` to save and retrieve data.
 
 ```text
 Flet client
-  main.py | views/ | theme.py
+  main.py, views/, theme.py
        |
        v
 API client (Requests)
        |
        v
-Flask REST API
-  backend/app.py
+Flask API (backend/app.py)
        |
        +---- models.py
        |
@@ -48,80 +38,98 @@ Flask REST API
        +---- notifier.py
 ```
 
-## Concepts demonstrated
+## Features
 
-- **Object-oriented programming:** classes, inheritance, composition, polymorphism and `super()`.
-- **Application structure:** separation of UI, API communication, models and persistence.
-- **File handling:** JSON and SQLite data storage.
-- **Error management:** input validation, exceptions and API error handling.
-- **API development:** HTTP requests, JSON payloads and a client/server architecture.
-- **Testing:** unit and integration-style tests using Python's standard `unittest` framework.
-- **User interface development:** multi-view navigation, reusable styling, dialogs and form validation.
+- Separate clinic and messenger accounts
+- Messenger registration and clinic approval
+- Patient and delivery records
+- PIN confirmation when a delivery is completed
+- Delivery status updates
+- Messages between clinic staff and messengers
 
-## Repository structure
-
-The application source is in `medicine_delivery_app/medicine_delivery_app/`.
+## Main project files
 
 | Path | Purpose |
 |---|---|
-| `main.py` | Application entry point |
-| `views/` | UI screens |
+| `main.py` | Starts the Flet application |
+| `views/` | Application screens |
 | `theme.py` | Shared interface styling |
-| `api_client.py` | Client-side API communication |
-| `backend/app.py` | Flask API |
-| `models.py` | Application models |
-| `storage.py` | Persistence implementations |
-| `notifier.py` | Notification adapter code |
+| `api_client.py` | Sends requests to the backend |
+| `backend/app.py` | Flask API routes |
+| `models.py` | Application data and rules |
+| `storage.py` | SQLite and JSON storage |
+| `notifier.py` | SMS and email notification adapters |
 | `tests/` | Automated tests |
-| `assets/` | Static assets |
+| `assets/` | Application images and other static files |
 
-## Demo testing and login details
+## Running the application locally
 
-For the guided demonstration, start the backend and then launch the Flet client. Open two app windows so the clinic and messenger workflows can be shown side by side.
+Open a terminal in this directory.
 
-Use these existing demonstration accounts:
+1. Install the dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   pip install -r backend/requirements.txt
+   ```
+
+2. Start the backend in the first terminal:
+
+   ```bash
+   python -m backend.app
+   ```
+
+3. Start the Flet client in a second terminal:
+
+   ```bash
+   python main.py
+   ```
+
+The client uses `http://127.0.0.1:8000` by default. Set `DOORSTEP_API_URL` if the backend is running at a different address.
+
+## Demo login details
+
+Use these accounts for the main application demonstration:
 
 | Role | Username | PIN |
 |---|---|---|
 | Clinic | `clinic1` | `1234` |
 | Messenger | `thabo` | `1111` |
 
-**Important:** The existing demo messenger account (`thabo`) is already available for the main demonstration. It does not need to register or wait for approval. Sign in with the demo details above.
+The existing `thabo` messenger demo account is already approved. It can sign in without waiting for approval.
 
-To test the new-account approval process instead:
+### Testing a new messenger registration
 
-1. On the login screen, choose **Create account** and register a new messenger. Use the village **Lekubu** for the demo.
-2. Sign in as the clinic using `clinic1` and PIN `1234`.
-3. Find the new messenger under **Waiting for approval** and select **Approve**.
-4. The newly registered messenger can then sign in using the credentials created during registration.
+1. On the login screen, select **Create account** and register a messenger. Enter **Lekubu** as the village.
+2. Sign in with the clinic account, `clinic1` / `1234`.
+3. Find the new account under **Waiting for approval** and select **Approve**.
+4. The new messenger can then sign in with the username and PIN created during registration.
 
-A newly registered messenger must wait for clinic approval before using the messenger account. This approval step applies to new registrations, not the existing `thabo` demo account.
+A newly registered messenger must wait for clinic approval. This does not apply to the existing `thabo` demo account.
 
-For the full step-by-step demonstration, see [DEMO_SCRIPT.md](DEMO_SCRIPT.md).
+See [DEMO_SCRIPT.md](DEMO_SCRIPT.md) for the steps used in the application demonstration.
 
-These are demonstration credentials for this educational project. Do not reuse them for real accounts or enter real patient or health information.
+The demo credentials are for this project only. Do not use them for real accounts or enter real patient information.
 
-## Running the test suite
+## Running the tests
 
-From this directory, install the dependencies listed in `requirements.txt` and `backend/requirements.txt`, then run:
+From this directory, run:
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-The original project notes report 43 tests. That count should be treated as a project-reported figure until the suite has been run successfully in a clean environment.
+The test suite includes tests for the models, API and client. Run the command above to see the current results.
 
-## Limitations and responsible-use notes
+## Limitations
 
-- This is a learning project, not a production-ready healthcare application.
-- Authentication and PIN-related code has not been independently security-audited. Different credential flows use different hashing approaches; do not treat the current implementation as a security standard.
-- Some rate-limiting state is held in process memory and may not persist across restarts.
-- The backend has documented single-process and scaling limitations.
-- External SMS and email integrations are documented, but live-provider operation has not been independently verified.
-- No real personal or health data should be used for demonstrations or testing.
+- This is a learning project, not a production healthcare application.
+- Authentication and PIN handling have not been independently security-audited.
+- Some rate-limiting information is held in process memory.
+- The backend is designed for a single-process demonstration and has scaling limitations.
+- Live SMS and email provider operation has not been verified.
+- Do not use real personal or health information in the application.
 
-## What I learned
+## Project work
 
-This capstone helped me practise combining Python fundamentals into a larger codebase. In particular, it strengthened my understanding of object-oriented programming, file handling, exception management, API communication, persistence and testing.
-
-The project is presented as evidence of my learning and development—not as a claim that the application is ready for real-world healthcare use.
+The project brings together Python programming, object-oriented design, file handling, error management, API communication, data storage and interface development.
