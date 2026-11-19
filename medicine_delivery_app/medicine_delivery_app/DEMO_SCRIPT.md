@@ -1,19 +1,40 @@
-# 60-second demo (record the screen while you do this)
+# Application demonstration
 
-Start the server and open the app in two windows (or phone + laptop).
+The steps below show the main clinic-to-messenger delivery process. Open two windows of the application so both account roles can be shown.
 
-1. (0:00) Window A: sign in as **clinic1 / 1234**. Say the problem in one sentence.
-2. (0:10) Tap **New delivery**, choose Sarah Tau, label "Monthly repeat". A PIN appears: note it.
-3. (0:20) Window B: sign in as **thabo / 1111**. Tap the refresh icon. Show that only Lekubu parcels appear and no medicine name.
-4. (0:30) Tap **Collect from clinic**.
-5. (0:38) Tap **Confirm delivery**, type a wrong PIN: see "Wrong PIN, 4 tries left". Then type the right PIN.
-6. (0:50) Window A: refresh. The parcel shows **Delivered** with who and when.
-7. (0:55) Say: queues down, patients not travelling, every handover is logged.
+## Main demonstration
 
-Take your screenshots at steps 2, 3, 5 and 6 for the submission.
+1. **Clinic login:** In Window A, sign in with username `clinic1` and PIN `1234`.
+2. **Create a delivery:** Select **New delivery**, choose Sarah Tau, and enter the label `Monthly repeat`. Note the PIN displayed by the application.
+3. **Messenger login:** In Window B, sign in with username `thabo` and PIN `1111`. Refresh the delivery list. The messenger should see the deliveries for Lekubu, without seeing the medicine name.
+4. **Collect the parcel:** Select **Collect from clinic**.
+5. **Confirm delivery:** Select **Confirm delivery**. Enter an incorrect PIN first to show the failed-attempt message, then enter the correct PIN.
+6. **Check the clinic view:** Return to Window A and refresh. The delivery should show the **Delivered** status with the person and time recorded.
 
-## Bonus (30 seconds): registration and messages
-1. On the login screen tap **Create account**, register a messenger (any name, village Lekubu).
-2. Sign in as **clinic1**: the new messenger appears under *Waiting for approval*. Tap **Approve**.
-3. Sign in as the new messenger, tap **Messages**, write to the clinic and tick *Also send by email*.
-4. Back as clinic1, the **Messages (1)** button shows the unread message. Show the server window printing the email.
+The demonstration shows how a delivery is created by the clinic, collected by a messenger and confirmed with a PIN.
+
+## Additional demonstration: registration and messages
+
+1. On the login screen, select **Create account** and register a new messenger. Enter **Lekubu** as the village.
+2. Sign in to the clinic account (`clinic1` / `1234`). The new messenger should appear under **Waiting for approval**.
+3. Select **Approve** for the new messenger.
+4. Sign in using the new messenger account. Open **Messages**, write a message to the clinic and select **Also send by email**.
+5. Return to the clinic account. Open **Messages** and check that the new message is shown as unread. The server window displays the email output when the console notification provider is in use.
+
+## Screenshots for assessment
+
+Capture the following screens:
+
+- The clinic's new delivery and generated PIN.
+- The messenger's delivery list.
+- The delivery PIN confirmation screen.
+- The clinic's delivery record after it has been marked Delivered.
+
+## Demo accounts
+
+| Account | Username | PIN |
+|---|---|---|
+| Clinic | `clinic1` | `1234` |
+| Messenger | `thabo` | `1111` |
+
+The existing messenger demo account is already approved. A newly registered messenger must be approved by the clinic before signing in.
