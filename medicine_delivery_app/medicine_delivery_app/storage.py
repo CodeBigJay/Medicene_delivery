@@ -13,7 +13,7 @@ from pathlib import Path
 
 
 # ----------------------------------------------------------------------
-# JSON helpers (Unit 3: file handling and errors)
+# JSON helpers
 # ----------------------------------------------------------------------
 def load_json(path, default=None):
     """Read JSON from `path`. Return `default` if the file is missing or damaged."""
