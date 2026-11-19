@@ -1,32 +1,19 @@
-# Peer Feedback
+# Usability review
 
-Ask two classmates to try the app, then fill this in with their real comments.
+This document records issues identified while reviewing the Doorstep Meds application and the changes made to address them. These are the developer's observations; they are not presented as comments from classmates.
 
-| Reviewer | Date | What they liked | What was confusing / suggestion | What I changed |
-|----------|------|-----------------|----------------------------------|----------------|
-|          |      |                 |                                  |                |
-|          |      |                 |                                  |                |
+| No. | Issue identified | Change made |
+|---|---|---|
+| 1 | Clinic users may be unsure where to begin. | Added a Getting Started guide to the clinic view. |
+| 2 | The purpose of preparing a delivery may not be clear. | Reworded the delivery preparation instructions. |
+| 3 | Users may not know when the delivery PIN is needed. | Added instructions explaining the PIN during the delivery process. |
+| 4 | The Ready, Collected, Delivered and Returned statuses may be unclear. | Added plain-language descriptions for each status. |
+| 5 | Users may not know what to do at each delivery stage. | Added next-step guidance for clinic and messenger users. |
+| 6 | The return process may be unclear to messengers. | Added a confirmation dialog before a parcel is returned to the clinic. |
+| 7 | New users may not understand messenger registration and approval. | Added explanations of clinic invitations and messenger approval. |
+| 8 | Users may be unsure which account to use when signing in. | Clarified the account guidance for clinic staff and messengers. |
+| 9 | Users may have difficulty following a parcel after collection. | Improved the delivery status descriptions and next-step guidance. |
 
-## Usability review: confusing areas and changes made
+## Review summary
 
-The following points document usability issues identified during my review of the application and the improvements made in response. They are developer-identified observations, not comments attributed to classmates. Complete the reviewer table above only after classmates have tested the app and provided genuine feedback.
-
-| No. | What could be confusing for users | Change made |
-|-----|-----------------------------------|-------------|
-| 1 | Clinic users may be unsure how to start using the application. | Added a Getting Started guide to the clinic view. |
-| 2 | The purpose of preparing a delivery may not be clear. | Improved the wording around preparing a delivery to explain the task more clearly. |
-| 3 | Users may not understand the purpose of the delivery PIN or when it is needed. | Added clearer PIN instructions for the delivery process. |
-| 4 | The meanings of Ready, Collected, Delivered and Returned may be unclear. | Added plain-language descriptions for each delivery status. |
-| 5 | Users may be unsure what action to take at each stage of a delivery. | Added status-specific next-step guidance for clinic and messenger users. |
-| 6 | The process for returning a parcel to the clinic may be unclear. | Added a confirmation dialog when a messenger returns a parcel to the clinic. |
-| 7 | New users may not understand clinic invitations or messenger account approval. | Improved the registration explanations for clinic invitations and messenger approval. |
-| 8 | Users may not know which account details to use when signing in as a clinic user or messenger. | Improved the role-related account guidance so users can better understand which account they should use. |
-| 9 | Users may not understand what happens after a parcel is collected or how to follow its progress. | Added clearer delivery-status descriptions and next-step guidance to help users follow the process. |
-
-## Questions to ask classmates
-
-- Could you sign in and find your first task without help?
-- Is any text too small or any wording unclear?
-- Is it clear what each status colour means?
-- Could you understand what to do after collecting a parcel?
-- Were the login instructions clear for your user role?
+The changes focus on the first steps in the application, the meaning of each delivery status, PIN confirmation and the messenger approval process. The application should still be tested by other users to gather feedback that is independent of the developer's review.
