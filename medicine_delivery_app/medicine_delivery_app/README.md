@@ -75,6 +75,32 @@ The application source is in `medicine_delivery_app/medicine_delivery_app/`.
 | `tests/` | Automated tests |
 | `assets/` | Static assets |
 
+## Demo testing and login details
+
+For the guided demonstration, start the backend and then launch the Flet client. Open two app windows so the clinic and messenger workflows can be shown side by side.
+
+Use these existing demonstration accounts:
+
+| Role | Username | PIN |
+|---|---|---|
+| Clinic | `clinic1` | `1234` |
+| Messenger | `thabo` | `1111` |
+
+**Important:** The existing demo messenger account (`thabo`) is already available for the main demonstration. It does not need to register or wait for approval. Sign in with the demo details above.
+
+To test the new-account approval process instead:
+
+1. On the login screen, choose **Create account** and register a new messenger. Use the village **Lekubu** for the demo.
+2. Sign in as the clinic using `clinic1` and PIN `1234`.
+3. Find the new messenger under **Waiting for approval** and select **Approve**.
+4. The newly registered messenger can then sign in using the credentials created during registration.
+
+A newly registered messenger must wait for clinic approval before using the messenger account. This approval step applies to new registrations, not the existing `thabo` demo account.
+
+For the full step-by-step demonstration, see [DEMO_SCRIPT.md](DEMO_SCRIPT.md).
+
+These are demonstration credentials for this educational project. Do not reuse them for real accounts or enter real patient or health information.
+
 ## Running the test suite
 
 From this directory, install the dependencies listed in `requirements.txt` and `backend/requirements.txt`, then run:
